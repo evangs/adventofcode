@@ -5,22 +5,20 @@ ehom.santa = ehom.santa || {};
 ehom.santa.lookAndSay = function lookAndSay(input) {
 
     var newSequence = [];
-    var character = '';
+    var count = 0;
 
     for (var i = 0; i < input.length; i++) {
-        if (character != input[i]) {
-            if (character) {
-                newSequence.push(character.length);
-                newSequence.push(character);
-            }
-            character = input[i];
+        if (i > 0 && input[i-1] != input[i]) {
+            newSequence.push(count);
+            newSequence.push(input[i-1]);
+            count = 1;
         } else {
-            character += input[i];
+            count++;
         }
     }
 
-    newSequence.push(character.length);
-    newSequence.push(character);
+    newSequence.push(count);
+    newSequence.push(input[i-1]);
 
     return newSequence.join('');
 };
@@ -39,9 +37,10 @@ ehom.santa.oneMin = function oneMin(input) {
     var iterations = 0;
     var currentTime = 0;
     while ((currentTime = ((new Date().getTime() - start) / 1000)) < 60) {
-        
+
         input = ehom.santa.lookAndSay(input);
         iterations++;
+        console.log(iterations);
     }
 
     return {'executionTime': currentTime, 'iterations': iterations, 'length': input.length};
