@@ -4,23 +4,21 @@ ehom.santa = ehom.santa || {};
 
 ehom.santa.lookAndSay = function lookAndSay(input) {
 
-    var newSequence = [];
+    var newSequence = '';
     var count = 0;
 
     for (var i = 0; i < input.length; i++) {
         if (i > 0 && input[i-1] != input[i]) {
-            newSequence.push(count);
-            newSequence.push(input[i-1]);
+            newSequence += count + input[i-1];
             count = 1;
         } else {
             count++;
         }
     }
 
-    newSequence.push(count);
-    newSequence.push(input[i-1]);
+    newSequence += count + input[i-1];
 
-    return newSequence.join('');
+    return newSequence;
 };
 
 ehom.santa.nTimes = function nTimes(input, n) {
