@@ -15,6 +15,18 @@ ehom.santa.passwordGenerator = function passwordGenerator(input) {
 
 ehom.santa.incrementPassword = function incrementPassword(pass) {
 
+    var i = 0;
+    var match = /[oli]/.exec(pass);
+    if (match) {
+        pass = pass.split('');
+        pass[match.index] = String.fromCharCode(pass[match.index].charCodeAt(0) + 1);
+        for (i = match.index + 1; i < pass.length; i++) {
+            pass[i] = 'a';
+        }
+
+        return pass.join('');
+    }
+
     pass = pass.split('');
     var end = pass.length - 1;
     var wrap = true;
@@ -25,6 +37,12 @@ ehom.santa.incrementPassword = function incrementPassword(pass) {
             end--;
         } else {
             pass[end] = String.fromCharCode(pass[end].charCodeAt(0) + 1);
+            if (pass[end].match(/[oli]/)) {
+                pass[end] = String.fromCharCode(pass[end].charCodeAt(0) + 1);
+                for (i = end + 1; i < pass.length; i++) {
+                    pass[i] = 'a';
+                }
+            }
             wrap = false;
         }
     }
@@ -43,14 +61,14 @@ ehom.santa.hasStraight = function hasStraight(pass) {
     return false;
 };
 
-ehom.santa.containsRestrictedCharacters = function containsRestrictedCharacters(pass) {
-
-    if (pass.match(/[oli]/)) {
-        return true;
-    }
-
-    return false;
-};
+// ehom.santa.containsRestrictedCharacters = function containsRestrictedCharacters(pass) {
+//
+//     if (pass.match(/[oli]/)) {
+//         return true;
+//     }
+//
+//     return false;
+// };
 
 ehom.santa.containsTwoPairs = function containsTwoPairs(pass) {
 
@@ -66,7 +84,7 @@ ehom.santa.validPassword = function validPassword(pass) {
 
     var self = ehom.santa;
 
-    if (self.hasStraight(pass) && self.containsTwoPairs(pass) && !self.containsRestrictedCharacters(pass)) {
+    if (self.hasStraight(pass) && self.containsTwoPairs(pass)) {
         return true;
     }
 
